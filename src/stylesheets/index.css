@@ -1,3 +1,16 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
+
+:root {
+    --font-size-1: 9px;
+    --font-size-2: 10px;
+    --font-size-3: 11px;
+    --font-size-4: 12px;
+    --font-size-5: 14px;
+    --font-size-6: 16px;
+    --font-size-7: 24px;
+    --font-style-1: Montserrat;
+}
+
 html {
     height: 100%;
     box-sizing: border-box;
@@ -10,7 +23,8 @@ html {
 }
 
 body {
-   min-height: 100%; 
+   min-height: 100%;
+   font-family: var(--font-style-1);
 }
 
 #app-wrapper {
