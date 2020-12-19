@@ -18,9 +18,10 @@ class WindbnbApp extends HTMLElement {
     html() {
         this.shadowRoot.innerHTML += `
             <main>
-            <h1>Outside the properties listing</h1>
+                <h1>Outside the properties listing</h1>
                 <properties-listing>
                 </properties-listing>
+                <h1>Outside the properties listing</h1>
             </main>
         `;
     }
