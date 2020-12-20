@@ -1,3 +1,4 @@
+import PropertyListingMenu from '../propertyListingMenu/PropertyListingMenu.js';
 import PropertiesListing from '../propertiesListing/PropertiesListing.js';
 
 class WindbnbApp extends HTMLElement {
@@ -18,16 +19,17 @@ class WindbnbApp extends HTMLElement {
     html() {
         this.shadowRoot.innerHTML += `
             <main>
-                <h1>Outside the properties listing</h1>
+                <property-listing-menu>
+                </property-listing-menu>
                 <properties-listing>
                 </properties-listing>
-                <h1>Outside the properties listing</h1>
+                <h1>Footer Goes Here</h1>
             </main>
         `;
     }
     
     css() {
-        this.shadowRoot.querySelector('main').innerHTML += `
+        this.shadowRoot.innerHTML += `
             <style>
                 *, *::before, *::after {
                     padding: 0;

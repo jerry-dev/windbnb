@@ -72,7 +72,6 @@ export default class PropertyCard extends HTMLElement {
             .rating {
                 display: flex;
                 height: 15.88px;
-                justify-self: end;
                 font-size: var(--font-size-5);
                 color: var(--grey-4);
                 margin-left: auto;
@@ -83,6 +82,8 @@ export default class PropertyCard extends HTMLElement {
                 height: 15.88px;
                 margin-right: 7.12px;
             }
+
+            .rating > img {}
 
             h3 {
                 font-size: var(--font-size-6);
@@ -108,7 +109,7 @@ export default class PropertyCard extends HTMLElement {
     }
 
     superHost(status) {
-        if (status) {
+        if (status === 'true') {
             return `<li><span class="superHost">SUPER HOST</span><li>`;
         } else {
             return ``;
@@ -117,17 +118,17 @@ export default class PropertyCard extends HTMLElement {
 
     propertyType(type) {
         if (type) {
-            return `<liclass="propertyType">${type} ${this.numberOfBeds(this.getAttribute('rooms'))}</li>`;
+            return `<li class="propertyType">${type} ${this.numberOfBeds(this.getAttribute('rooms'))}</li>`;
         } else {
             return ``;
         }
     }
 
     numberOfBeds(beds) {
-        if (beds) {
-            return `<span class="bedrooms">. ${beds} beds<span>`;
-        } else {
+        if (beds === 'null') {
             return ``;
+        } else {
+            return `<span class="bedrooms">. ${beds} beds<span>`;
         }
     }
 
