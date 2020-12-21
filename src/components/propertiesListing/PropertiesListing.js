@@ -18,7 +18,7 @@ export default class PropertiesListing extends HTMLElement {
     async html() {
         try {
             const listingData = await this.propertyDataFetch();
-            const html = this.hydrate(listingData, 14);
+            const html = this.hydrate(listingData, 7);
             this.shadowRoot.innerHTML += html;
         } catch(error) {
             console.log(`An error took place when generating the markup.`, error.message);

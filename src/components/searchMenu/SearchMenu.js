@@ -16,54 +16,47 @@ export default class SearchMenu extends HTMLElement {
     html() {
         this.shadowRoot.innerHTML += `
             <form>
-                <fieldset>
-                    <div id="inputGroup-1" class="inputGroup">
-                        <label for"locationSelect">Location</label>
-                        <select id="locationSelect" for="locationSelect" placeholder="Add location">
-                            <option>Helsinki, Finland</option>
-                            <option>Turku, Finland</option>
-                            <option>Oulu, Finland</option>
-                            <option>Vaasa, Finland</option>
-                        </select>
-                    </div>
-                    <div id="inputGroup-2" class="inputGroup">
-                        <label for"numberOfGuests">Guests</label>
-                        <input type="text" id="numberOfGuests" for="numberOfGuests" placeholder="Add guests">
-                    </div>
-                    <div id="searchIcon" class="inputGroup">
-                        <img src="">
-                    </div>
-                </fieldset>
+                <label for"locationSelect">Location</label>
+                <select id="locationSelect" name="locationSelect" placeholder="Add location">
+                    <option>Helsinki, Finland</option>
+                    <option>Turku, Finland</option>
+                    <option>Oulu, Finland</option>
+                    <option>Vaasa, Finland</option>
+                </select>
+                <label for"numberOfGuests">Guests</label>
+                <input type="text" id="numberOfGuests" name="numberOfGuests" placeholder="Add guests">
+                <span id="search">
+                    <img src="../src/assets/icons/icons8-search-24.png">
+                </span>
             </form>
         `;
     }
 
-    // Will position the labels absolutely on the top when the input is :focus
-    // The labels will have a display of none by default
-    //CURRENTLY Shaping the group's radius
     css() {
         this.shadowRoot.innerHTML += `
             <style>
                 *, *::before, *::after {
                     padding: 0;
                     margin: 0;
+                    border: none;
                 }
 
                 :host {
-                    margin-left: auto;
-                    
-                    margin-top: 50px;
+                    grid-column: -1;
                 }
 
                 form {
-                    box-shadow: 0px 1px 6px rgba(0, 0, 0, 0.1);
-                    border-radius: 16px 16px 16px 16px;
-                }
-
-                fieldset {
                     display: flex;
                     flex-direction: row;
-                    border: none;
+                    height: 55px;
+                    border: 1px solid rgba(0, 0, 0, 0.1);
+                    border-radius: 16px;
+                    box-shadow: 0px 1px 6px rgba(0, 0, 0, 0.1);
+                }
+
+                select {
+                    border-radius: 16px 0px 0px 16px;
+                    appearance: none;
                 }
 
                 label {
@@ -73,8 +66,12 @@ export default class SearchMenu extends HTMLElement {
                 input::placeholder {
                     color: var(--grey-1);
                 }
+                
+                #numberOfGuests {
+                    width: 106px;
+                }
 
-                #locationSelect, #numberOfGuests, #searchIcon {
+                #locationSelect, #numberOfGuests {
                     padding-top: 19px;
                     padding-right: 16px;
                     padding-bottom: 18px;
@@ -82,35 +79,19 @@ export default class SearchMenu extends HTMLElement {
                     text-align: center;
                     font-size: var(--font-size-5);
                     color: var(--grey-5);
-                    border: none;
                 }
 
-                searchIcon {
-                    
+                #locationSelect {
+                    border-right: 1px solid #F2F2F2;
                 }
 
-                .inputGroup {
-                    margin-left: auto;
-                    display: flex
-                    flex-direction: column;
-                    outline: 1px solid rgba(0, 0, 0, 0.1);
-                    
-                }
-
-                #inputGroup-1 {
-                    outline: 2px solid red;
-                }
-
-                #inputGroup-1 > input {
-                    width: 138px;
-                }
-
-                #inputGroup-2 > input {
-                    width: 106px;
-                }
-
-                #searchIcon {
-                    display: none;
+                #search {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    border-left: 1px solid #F2F2F2;
+                    display: flex;
+                    width: 53px;
                 }
             </style>
         `;
