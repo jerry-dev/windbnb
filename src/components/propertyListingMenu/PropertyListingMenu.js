@@ -1,3 +1,5 @@
+import SearchMenu from '../searchMenu/SearchMenu.js';
+
 export default class PropertyListingMenu extends HTMLElement {
     constructor() {
         super();
@@ -15,7 +17,7 @@ export default class PropertyListingMenu extends HTMLElement {
 
     html() {
         this.shadowRoot.innerHTML += `
-            <h1>Loaded</h1>
+            <search-menu></search-menu>
         `;
     }
 
@@ -27,8 +29,12 @@ export default class PropertyListingMenu extends HTMLElement {
                     margin: 0;
                 }
 
-                :host {
+                :host {.
+                    width: 100%;
+                    display: flex;
                     padding-top: 32px;
+                    padding-bottom: 32px;
+                    outline: 1px solid rgba(0, 0, 0, 0.1);
                 }
             </stlye>
         `;
