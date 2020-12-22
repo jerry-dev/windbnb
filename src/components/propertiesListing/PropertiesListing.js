@@ -18,7 +18,7 @@ export default class PropertiesListing extends HTMLElement {
     async html() {
         try {
             const listingData = await this.propertyDataFetch();
-            const html = this.hydrate(listingData, 7);
+            const html = this.hydrate(listingData);
             this.shadowRoot.innerHTML += html;
         } catch(error) {
             console.log(`An error took place when generating the markup.`, error.message);
@@ -47,20 +47,23 @@ export default class PropertiesListing extends HTMLElement {
         return (await import('../../data/listingData.js')).default;
     }
 
-    hydrate(listingData, limit = 6) {
+    hydrate(listingData, city = "Helsinki") {
         let html = ``;
-        for (let i = 0; i < limit; i++) {
-            html += `
-                <property-card class="listing-${i+1}"
-                    imageSrc="${listingData[i].photo}"
-                    title="${listingData[i].title}"
-                    hostStatus="${listingData[i].superHost}"
-                    propertyType="${listingData[i].type}"
-                    rooms="${listingData[i].beds}"
-                    ratings="${listingData[i].rating}"
-                >
-                </property-card>
-            `;
+        for (let i = 0; i < listingData.length; i++) {
+            if (listingData[i].city === city) {
+                html += `
+                    <property-card class="listing-${i+1}"
+                        imageSrc="${listingData[i].photo}"
+                        title="${listingData[i].title}"
+                        hostStatus="${listingData[i].superHost}"
+                        propertyType="${listingData[i].type}"
+                        rooms="${listingData[i].beds}"
+                        ratings="${listingData[i].rating}"
+                    >
+                    </property-card>`;
+            } else {
+                continue;
+            }
         }
         return html;
     }
