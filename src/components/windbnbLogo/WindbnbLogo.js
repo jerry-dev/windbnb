@@ -26,10 +26,13 @@ export default class windbnbLogo extends HTMLElement {
                     padding: 0;
                     margin: 0;
                 }
+                
                 :host {
                     grid-column: 1;
+                    grid-row: 1;
                     width: 96px;
                     height: 18.75px;
+                    z-index: 6;
                 }
             </style>
         `;

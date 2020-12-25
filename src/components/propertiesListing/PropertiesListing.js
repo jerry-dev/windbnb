@@ -34,6 +34,8 @@ export default class PropertiesListing extends HTMLElement {
             }
 
             :host {
+                position: relative;
+                z-index: 5;
                 display: grid;
                 grid-template-columns: repeat(3, minmax(197.5px, 395px));
                 grid-column-gap: 34px;
@@ -52,7 +54,7 @@ export default class PropertiesListing extends HTMLElement {
         for (let i = 0; i < listingData.length; i++) {
             if (listingData[i].city === city) {
                 html += `
-                    <property-card class="listing-${i+1}"
+                    <property-card id="listing-${i+1}"
                         imageSrc="${listingData[i].photo}"
                         title="${listingData[i].title}"
                         hostStatus="${listingData[i].superHost}"

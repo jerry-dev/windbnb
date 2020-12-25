@@ -29,9 +29,8 @@ export default class PropertyListingMenu extends HTMLElement {
         this.shadowRoot.innerHTML += `
             <style>
                 :host {
-                    z-index: 55;
-                    height: 460px;
-                    outline: 2px solid red;
+                    z-index: 50;
+                    position: relative;
                 }
 
                 #propertyListingMenuContainer {
@@ -39,13 +38,11 @@ export default class PropertyListingMenu extends HTMLElement {
                     display: flex;
                     padding-top: 32px;
                     padding-bottom: 32px;
-                    outline: 5px solid blue;
                     display: grid;
                     grid-template-columns: repeat(3, minmax(197.5px, 395px));
                     grid-column-gap: 34px;
                     grid-row-gap: 50px;
                 }
-
             </stlye>
         `;
     }
