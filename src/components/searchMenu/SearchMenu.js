@@ -1,3 +1,5 @@
+import listingData from '../../data/listingData.js';
+
 export default class SearchMenu extends HTMLElement {
     constructor() {
         super();
@@ -11,42 +13,30 @@ export default class SearchMenu extends HTMLElement {
     render() {
         this.html();
         this.css();
+        this.expandStateCSS();
         this.scripts();
     }
 
     html() {
         this.shadowRoot.innerHTML += `
-            <form>
+            <form autocomplete="off">
                 <span id="locationSelect" class="inputContainer">
                     <label for"locationSelect">Location</label>
                     <input type="text" name="locationSelect" value="Helsinki, Finland" placeholder="Add location">
                     <ul id="locationOptions">
-                        <li value="Helsinki, Finland">
-                            <span><img src="../src/assets/icons/location-pin-svgrepo-com.svg" class="pin"></span>
-                            Helsinki, Finland
-                        </li>
-                        <li value="Turku, Finland">
-                            <span><img src="../src/assets/icons/location-pin-svgrepo-com.svg" class="pin"></span>
-                            Turku, Finland
-                        </li>
-                        <li value="Oulu, Finland">
-                            <span><img src="../src/assets/icons/location-pin-svgrepo-com.svg" class="pin"></span>
-                            Oulu, Finland
-                        </li>
-                        <li value="Vaasa, Finland">
-                            <span><img src="../src/assets/icons/location-pin-svgrepo-com.svg" class="pin"></span>
-                            Vaasa, Finland
-                        </li>
                     </ul>
                 </span>
                 
                 <span id="numberOfGuests" class="inputContainer">
                     <label for"numberOfGuests">Guests</label>
-                    <input type="text name="numberOfGuests" placeholder="Add guests" disabled>
+                    <input type="text name="numberOfGuests" placeholder="Add guests">
                 </span>
 
                 <span id="search" class="inputContainer">
-                    <img src="../src/assets/icons/icons8-search-24.png">
+                    <span id="searchIcon">
+                        <img src="../src/assets/icons/icons8-search-24.png">
+                        <span id="searchText">Search</span>
+                    </span>
                 </span>
             </form>
         `;
@@ -76,6 +66,7 @@ export default class SearchMenu extends HTMLElement {
                     top: 0;
                     left: 0;
                     right: 0;
+                    outline: 2px solid red;
                 }
 
                 form {
@@ -142,15 +133,15 @@ export default class SearchMenu extends HTMLElement {
                     list-style: none;
                 }
 
-                #locationOptions li {
+                :host form > #locationSelect > #locationOptions {
                     display: none;
                 }
 
-                #locationSelect input:focus ~ #locationOptions li {
+                #locationOptions > li {
                     display: flex;
-                    flex-direction: row;
+                    justify-content: flex-start;
                     align-items: center;
-                    margin-bottom: 36px;
+                    font-size: var(--font-size-5);
                 }
 
                 #locationOptions > li:not(:last-child) {
@@ -171,36 +162,142 @@ export default class SearchMenu extends HTMLElement {
                     width: 53px;
                 }
 
+                #search > #searchIcon {
+                    justify-content: center;
+                    align-items: center;
+                }
 
-                :host(.expanded) form > #locationSelect, :host(.expanded) form > #numberOfGuests {
+                #search > #searchIcon > #searchText {
+                    display: none;
+                    color: white;
+                    margin-left: 10.95px;
+                }
+            </style>
+        `;
+    }
+
+    expandStateCSS() {
+        this.shadowRoot.innerHTML += `
+            <style>
+                :host(.expanded) form > #locationSelect,
+                :host(.expanded) form > #numberOfGuests {
                     padding-top: 12px;
                 }
 
+                :host(.expanded) form > #locationSelect {
+                    width: 420px;
+                }
+
+                :host(.expanded) form > #locationSelect label {
+                    display: block;
+                }
+
+                :host(.expanded) form > #numberOfGuests {
+                    width: 821px;
+                }
+
+                :host(.expanded) form > #numberOfGuests label {
+                    display: block;
+                }
+
                 :host(.expanded) form > #search {
+                    width: 395px;
+                }
+
+                :host(.expanded) form > #search > #searchIcon {
+                    margin-left: auto;
+                    margin-right: auto;
+                    width: 127px;
+                    height: 48px;
                     background-color: var(--red-1);
+                    display: flex;
+                    border-radius: 16px;
+                }
+
+                :host(.expanded) form > #search > #searchIcon > #searchText {
+                    display: block;
+                }
+
+                :host(.expanded) form > #locationSelect > input:focus ~ #locationOptions,
+                :host(.expanded) form > #locationSelect > #locationOptions:active {
+                    display: block;
+                }
+
+                :host(.expanded) > #locationSelect > input:focus {
+                    display: flex;
+                    outline: 1px solid black;
+                    flex-direction: row;
+                    align-items: center;
                 }
             </style>
         `;
     }
 
     scripts() {
-        this.optionFilter();
+        this.renderLocationList();
     }
 
-    optionFilter() {
-        this.shadowRoot.querySelector('form #locationSelect input').addEventListener('input', () => {
-            let userInput = this.shadowRoot.querySelector('form #locationSelect input').value;
-            let locationOptions = this.shadowRoot.querySelector('form #locationSelect #locationOptions').children;
-            for (let i = 0; i < locationOptions.length; i++) {
-                locationOptions[i].style.display = "none";
-                let option = locationOptions[i].getAttribute('value');
-                if (!option.includes(userInput)) {
-                    locationOptions[i].style.display = "none";
-                } else {
-                    locationOptions[i].style.display = "block";
+    async dataSetFetch() {
+        return (await import('../../data/listingData.js')).default;
+    }
+
+    async getDestinctLocations() {      
+        const compare = { NOT_EQUALITY: -1, EQUALITY: 1 }
+        const compareDefault = (a, b) => {
+            return a === b ? compare.EQUALITY : compare.NOT_EQUALITY;
+        }
+        
+        try {
+            const dataSet = [];
+            const rawDataSet = await this.dataSetFetch();
+            for (let i = 0; i < rawDataSet.length; i++) {
+                dataSet[dataSet.length] = rawDataSet[i];
+            }
+
+            const { length } = dataSet;
+            const result = [];
+
+            for (let i = 0; i < length; i++) {
+                for (let j = 0; j < length-1; j++) {
+                    if (dataSet[j] === 'dupe') {
+                        continue;
+                    }
+
+                    if (compareDefault(i, j) === compare.NOT_EQUALITY) {
+                        if (compareDefault(dataSet[i].city, dataSet[j].city) === compare.EQUALITY) {
+                            dataSet[j] = 'dupe';
+                        }
+                    } else {
+                        continue;
+                    }
                 }
             }
-        });
+
+            for (let k = 0; k < length; k++) {
+                if (dataSet[k] === 'dupe') {
+                    continue;
+                } else {
+                    result[result.length] = `${dataSet[k].city}, ${dataSet[k].country}`;
+                }
+            }
+
+            return result;
+        } catch(error) {
+            console.log(error);
+        }
+    }
+
+    async renderLocationList() {
+        try {
+            const locations = await this.getDestinctLocations();
+            let html = ``;
+            for (let i = 0; i < locations.length; i++) {
+                    html += `<li value="${locations[i]}"><span><img src="../src/assets/icons/location-pin-svgrepo-com.svg" class="pin"></span>${locations[i]}</li>`;
+            }
+            this.shadowRoot.querySelector('form #locationSelect #locationOptions').innerHTML += html;
+        } catch (error) {
+            console.log(`Error @ renderLocationList(): ${error}`);
+        }
     }
 }
 

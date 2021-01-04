@@ -1,9 +1,19 @@
 import PropertyCard from '../propertycard/PropertyCard.js';
 
 export default class PropertiesListing extends HTMLElement {
+    static get observedAttributes() {
+        return ['location'];
+    }
+
     constructor() {
         super();
         this.attachShadow({mode:'open'});
+    }
+
+    attributeChangedCallback(attrName, oldValue, newValue) {
+		if (oldValue !== newValue) {
+			this[attrName] = this.getAttribute(attrName);
+        }
     }
 
     connectedCallback() {
@@ -17,11 +27,11 @@ export default class PropertiesListing extends HTMLElement {
 
     async html() {
         try {
-            const listingData = await this.propertyDataFetch();
+            const listingData = await this.propertyDataFetch(this.getAttribute('location'));
             const html = this.hydrate(listingData);
             this.shadowRoot.innerHTML += html;
         } catch(error) {
-            console.log(`An error took place when generating the markup.`, error.message);
+            console.log(`An error took @ properties-listing > html():`, error.message);
         }
     }
 
@@ -45,14 +55,27 @@ export default class PropertiesListing extends HTMLElement {
         `;
     }
 
-    async propertyDataFetch() {
-        return (await import('../../data/listingData.js')).default;
+    async propertyDataFetch(location) {
+        console.log(location);
+            if (location) {
+                let data = (await import('../../data/listingData.js')).default;
+                let filteredContainer = [];
+                for (let i = 0; i < data.length; i++) {
+                    let propertyLocation = `${data[i].city}, ${data[i].country}`;
+                    if (propertyLocation === location) {
+                        filteredContainer[filteredContainer.length] = data[i];
+                    }
+                }
+                return filteredContainer;
+            } else {
+                return (await import('../../data/listingData.js')).default;
+            }
     }
 
-    hydrate(listingData, city = "Helsinki") {
+
+    hydrate(listingData) {
         let html = ``;
         for (let i = 0; i < listingData.length; i++) {
-            if (listingData[i].city === city) {
                 html += `
                     <property-card id="listing-${i+1}"
                         imageSrc="${listingData[i].photo}"
@@ -63,11 +86,13 @@ export default class PropertiesListing extends HTMLElement {
                         ratings="${listingData[i].rating}"
                     >
                     </property-card>`;
-            } else {
-                continue;
-            }
         }
         return html;
+    }
+
+    refresh() {
+        this.shadowRoot.innerHTML =``;
+        this.render();
     }
 }
 
