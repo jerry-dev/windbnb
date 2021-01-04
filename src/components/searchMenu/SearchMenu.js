@@ -57,18 +57,6 @@ export default class SearchMenu extends HTMLElement {
                     background-color: white;
                 }
 
-                :host(.expanded) {
-                    height: 460px;
-                    padding-top: 61px;
-                    z-index: 200;
-                    background-color: white;
-                    position: fixed;
-                    top: 0;
-                    left: 0;
-                    right: 0;
-                    outline: 2px solid red;
-                }
-
                 form {
                     max-width: 1253px;
                     margin-left: auto;
@@ -179,6 +167,19 @@ export default class SearchMenu extends HTMLElement {
     expandStateCSS() {
         this.shadowRoot.innerHTML += `
             <style>
+            :host(.expanded) {
+                height: 460px;
+                padding-top: 61px;
+                z-index: 200;
+                background-color: white;
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                
+                outline: 2px solid red;
+            }
+
                 :host(.expanded) form > #locationSelect,
                 :host(.expanded) form > #numberOfGuests {
                     padding-top: 12px;

@@ -20,6 +20,7 @@ class WindbnbApp extends HTMLElement {
     html() {
         this.shadowRoot.innerHTML += `
             <property-listing-menu></property-listing-menu>
+            <div id="propertylistingHeader"><span id="stays">Stays in Finland</span><span id="days">12+ stays</span></div>
             <properties-listing location></properties-listing>
             <h1>Footer Goes Here</h1>
         `;
@@ -38,6 +39,24 @@ class WindbnbApp extends HTMLElement {
                     display: grid;
                     grid-template-columns: 1fr;
                     grid-template-rows: 1fr, repeat() 1fr
+                }
+
+                :host > #propertylistingHeader {
+                    display: flex;
+                    flex-direction: row;
+                    align-items: center;
+                    justify-content: space-between;
+                    margin-bottom: 32px;
+                }
+
+                :host > #propertylistingHeader > #stays {
+                    font-size: var(--font-size-7);
+                    font-weight: bold;
+                    color: var(--grey-4);
+                }
+
+                :host > #propertylistingHeader > #days {
+                    font-size: var(--font-size-5);
                 }
             </style>
         `;
@@ -71,7 +90,6 @@ class WindbnbApp extends HTMLElement {
 
         this.shadowRoot.addEventListener('click', (event) => {
             if (event.target !== propertyListingMenu && searchMenu.classList.contains('expanded')) {
-                console.log(event.target);
                 searchMenu.classList.remove('expanded');
             }
         });
@@ -83,7 +101,6 @@ class WindbnbApp extends HTMLElement {
         });
 
         window.addEventListener('click', (event) => {
-            console.log(event.target);
             if (event.target !== this && searchMenu.classList.contains('expanded')) {
                 searchMenu.classList.remove('expanded');
             }
@@ -93,11 +110,11 @@ class WindbnbApp extends HTMLElement {
     selectClickedLocation() {
         const locationList = this.shadowRoot.querySelector('property-listing-menu').shadowRoot
             .querySelector('search-menu').shadowRoot
-                .querySelector('form > #locationSelect > #locationOptions');
+            .querySelector('form > #locationSelect > #locationOptions');
         
         const locationSelectInput = this.shadowRoot.querySelector('property-listing-menu').shadowRoot
             .querySelector('search-menu').shadowRoot
-                .querySelector('form > #locationSelect > input');
+            .querySelector('form > #locationSelect > input');
 
         locationList.addEventListener('click', (event) => {
             if (event.target.getAttribute('value')) {
@@ -110,11 +127,11 @@ class WindbnbApp extends HTMLElement {
     filterLocationOnInput() {
         const locationSelectInput = this.shadowRoot.querySelector('property-listing-menu').shadowRoot
             .querySelector('search-menu').shadowRoot
-                .querySelector('form > #locationSelect > input');
+            .querySelector('form > #locationSelect > input');
 
         const locationList = this.shadowRoot.querySelector('property-listing-menu').shadowRoot
             .querySelector('search-menu').shadowRoot
-                .querySelector('form > #locationSelect > #locationOptions');
+            .querySelector('form > #locationSelect > #locationOptions');
 
         locationSelectInput.addEventListener('input', () => {
             let selectedLocation = locationSelectInput.value.toLowerCase();
@@ -135,8 +152,7 @@ class WindbnbApp extends HTMLElement {
             .querySelector('search-menu').shadowRoot
             .querySelector('form > #search');
 
-        searchButton.addEventListener('click', (event) => {
-            console.log(event.target);
+        searchButton.addEventListener('click', () => {
             this.attachSelectionToAttribute();
             this.shadowRoot.querySelector('properties-listing').refresh();
         });

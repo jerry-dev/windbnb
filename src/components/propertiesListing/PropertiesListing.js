@@ -56,7 +56,6 @@ export default class PropertiesListing extends HTMLElement {
     }
 
     async propertyDataFetch(location) {
-        console.log(location);
             if (location) {
                 let data = (await import('../../data/listingData.js')).default;
                 let filteredContainer = [];
