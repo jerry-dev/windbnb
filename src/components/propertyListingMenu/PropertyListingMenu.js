@@ -31,13 +31,12 @@ export default class PropertyListingMenu extends HTMLElement {
                 :host {
                     z-index: 50;
                     position: relative;
+                    height: 148px;
                 }
 
                 #propertyListingMenuContainer {
                     width: 100%;
-                    display: flex;
                     padding-top: 32px;
-                    padding-bottom: 32px;
                     display: grid;
                     grid-template-columns: repeat(3, minmax(197.5px, 395px));
                     grid-column-gap: 34px;

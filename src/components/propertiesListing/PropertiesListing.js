@@ -17,7 +17,7 @@ export default class PropertiesListing extends HTMLElement {
     }
 
     connectedCallback() {
-        this.render();
+        this.render()
     }
 
     render() {
@@ -95,6 +95,8 @@ export default class PropertiesListing extends HTMLElement {
     }
 }
 
-if (!customElements.get('properties-listing')) {
-    customElements.define('properties-listing', PropertiesListing);
-}
+window.customElements.whenDefined('windbnb-app').then(() => {
+    if (!window.customElements.get('properties-listing')) {
+        window.customElements.define('properties-listing', PropertiesListing);
+    }
+});

@@ -28,8 +28,31 @@ export default class SearchMenu extends HTMLElement {
                 </span>
                 
                 <span id="numberOfGuests" class="inputContainer">
+
                     <label for"numberOfGuests">Guests</label>
-                    <input type="text name="numberOfGuests" placeholder="Add guests">
+                    <input type="text name="numberOfGuests" placeholder="Add guests" readonly>
+
+                    <div id="guestDetails">
+                        <div id="adultCounter" class="counter">
+                            <div class="demographic">Adult</div>
+                            <div class="demoLimit">Ages 13 or above</div>
+                            <span>
+                                <button type="button" id="adultDecrement">-</button>
+                                <span id="adultCount" class="countDisplay">0</span>
+                                <button type="button" id="adultIncrement">+</button>
+                            </span>
+                        </div>
+
+                        <div id="childrenCounter" class="counter">
+                            <div class="demographic">Children</div>
+                            <div class="demoLimit">Ages 2-12</div>
+                            <span>
+                                <button type="button" id="childrenDecrement">-</button>
+                                <span id="childCount" class="countDisplay">0</span>
+                                <button type="button" id="childrenIncrement">+</button>
+                            </span>
+                        </div>
+                    </div>
                 </span>
 
                 <span id="search" class="inputContainer">
@@ -99,7 +122,8 @@ export default class SearchMenu extends HTMLElement {
                     width: 106px;
                 }
 
-                #locationSelect, #numberOfGuests {
+                #locationSelect,
+                #numberOfGuests {
                     padding-top: 19px;
                     padding-right: 16px;
                     padding-bottom: 10px;
@@ -113,7 +137,8 @@ export default class SearchMenu extends HTMLElement {
                     border-right: 1px solid #F2F2F2;
                 }
 
-                #locationOptions {
+                #locationOptions,
+                #guestDetails {
                     padding: 0;
                     position: relative;
                     top: 52px;
@@ -121,7 +146,8 @@ export default class SearchMenu extends HTMLElement {
                     list-style: none;
                 }
 
-                :host form > #locationSelect > #locationOptions {
+                :host form > #locationSelect > #locationOptions,
+                :host form > #numberOfGuests > #guestDetails {
                     display: none;
                 }
 
@@ -201,7 +227,58 @@ export default class SearchMenu extends HTMLElement {
                     display: block;
                 }
 
-                :host(.expanded) form > #search {
+
+
+
+                :host(.expanded) > form > #numberOfGuests > input:focus ~ #guestDetails,
+                :host(.expanded) > form > #numberOfGuests > input ~ #guestDetails:hover {
+                    width: 114px;
+                    display: flex;
+                    flex-direction: column;
+                    font-family: var(--font-style-3);
+                    cursor: default;
+                }
+
+                :host(.expanded) > form > #numberOfGuests > #guestDetails > #adultCounter {
+                    margin-bottom: 52px;
+                }
+
+                :host(.expanded) > form > #numberOfGuests > input ~ #guestDetails > .counter > .demographic {
+                    font-size: var(--font-size-5);
+                    font-weight: bold;
+                }
+
+                :host(.expanded) > form > #numberOfGuests > input ~ #guestDetails > .counter > .demoLimit {
+                    font-size: var(--font-size-5);
+                    font-weight: 400;
+                    color: var(--grey-1);
+                }
+
+                :host(.expanded) > form > #numberOfGuests > input ~ #guestDetails > .counter > * {
+                    display: flex;
+                    align-items: center;
+                }
+
+                :host(.expanded) > form > #numberOfGuests > input ~ #guestDetails > .counter > span {
+                    margin-top: 12px;
+                }
+
+                :host(.expanded) > form > #numberOfGuests > input ~ #guestDetails > .counter > span > button {
+                    width: 23px;
+                    height: 23px;
+                    border-radius: 4px;
+                    background: none;
+                    border: 1px solid #828282;
+                    cursor: pointer;
+                }
+
+                :host(.expanded) > form > #numberOfGuests > input ~ #guestDetails > .counter > span > .countDisplay {
+                    font-weight: bold;
+                    margin-right: 15px;
+                    margin-left: 15px;
+                }
+
+                :host(.expanded) > form > #search {
                     width: 395px;
                 }
 
@@ -222,13 +299,6 @@ export default class SearchMenu extends HTMLElement {
                 :host(.expanded) form > #locationSelect > input:focus ~ #locationOptions,
                 :host(.expanded) form > #locationSelect > #locationOptions:active {
                     display: block;
-                }
-
-                :host(.expanded) > #locationSelect > input:focus {
-                    display: flex;
-                    outline: 1px solid black;
-                    flex-direction: row;
-                    align-items: center;
                 }
             </style>
         `;
