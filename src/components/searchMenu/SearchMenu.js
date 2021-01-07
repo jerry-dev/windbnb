@@ -22,7 +22,7 @@ export default class SearchMenu extends HTMLElement {
             <form autocomplete="off">
                 <span id="locationSelect" class="inputContainer">
                     <label for"locationSelect">Location</label>
-                    <input type="text" name="locationSelect" value="Helsinki, Finland" placeholder="Add location">
+                    <input type="text" id="locationSelectInput" name="locationSelect" value="Helsinki, Finland" placeholder="Add location">
                     <ul id="locationOptions">
                     </ul>
                 </span>
@@ -30,7 +30,7 @@ export default class SearchMenu extends HTMLElement {
                 <span id="numberOfGuests" class="inputContainer">
 
                     <label for"numberOfGuests">Guests</label>
-                    <input type="text name="numberOfGuests" placeholder="Add guests" readonly>
+                    <input type="text" id="numberOfGuestsInput" name="numberOfGuests" placeholder="Add guests" readonly>
 
                     <div id="guestDetails">
                         <div id="adultCounter" class="counter">
@@ -55,12 +55,12 @@ export default class SearchMenu extends HTMLElement {
                     </div>
                 </span>
 
-                <span id="search" class="inputContainer">
-                    <span id="searchIcon">
-                        <img src="../src/assets/icons/icons8-search-24.png">
+                <button type="button" id="search" class="inputContainer">
+                    <span id="searchGroup">
+                        <img id="searchIcon" src="../src/assets/icons/icons8-search-24.png">
                         <span id="searchText">Search</span>
                     </span>
-                </span>
+                </button>
             </form>
         `;
     }
@@ -90,6 +90,11 @@ export default class SearchMenu extends HTMLElement {
                     border: 1px solid rgba(0, 0, 0, 0.1);
                     border-radius: 16px;
                     box-shadow: 0px 1px 6px rgba(0, 0, 0, 0.1);
+                }
+
+                button {
+                    background: none;
+                    outline: none;
                 }
 
                 .inputContainer {
@@ -176,12 +181,12 @@ export default class SearchMenu extends HTMLElement {
                     width: 53px;
                 }
 
-                #search > #searchIcon {
+                #search > #searchGroup {
                     justify-content: center;
                     align-items: center;
                 }
 
-                #search > #searchIcon > #searchText {
+                #search > #searchGroup > #searchText {
                     display: none;
                     color: white;
                     margin-left: 10.95px;
@@ -201,9 +206,7 @@ export default class SearchMenu extends HTMLElement {
                 position: fixed;
                 top: 0;
                 left: 0;
-                right: 0;
-                
-                outline: 2px solid red;
+                right: 0;                
             }
 
                 :host(.expanded) form > #locationSelect,
@@ -226,9 +229,6 @@ export default class SearchMenu extends HTMLElement {
                 :host(.expanded) form > #numberOfGuests label {
                     display: block;
                 }
-
-
-
 
                 :host(.expanded) > form > #numberOfGuests > input:focus ~ #guestDetails,
                 :host(.expanded) > form > #numberOfGuests > input ~ #guestDetails:hover {
@@ -282,7 +282,7 @@ export default class SearchMenu extends HTMLElement {
                     width: 395px;
                 }
 
-                :host(.expanded) form > #search > #searchIcon {
+                :host(.expanded) form > #search > #searchGroup {
                     margin-left: auto;
                     margin-right: auto;
                     width: 127px;
@@ -292,7 +292,7 @@ export default class SearchMenu extends HTMLElement {
                     border-radius: 16px;
                 }
 
-                :host(.expanded) form > #search > #searchIcon > #searchText {
+                :host(.expanded) form > #search > #searchGroup > #searchText {
                     display: block;
                 }
 

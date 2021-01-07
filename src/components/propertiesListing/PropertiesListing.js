@@ -30,6 +30,7 @@ export default class PropertiesListing extends HTMLElement {
             const listingData = await this.propertyDataFetch(this.getAttribute('location'));
             const html = this.hydrate(listingData);
             this.shadowRoot.innerHTML += html;
+            this.shadowRoot.innerHTML += `<span id="overlay"></span>`;
         } catch(error) {
             console.log(`An error took @ properties-listing > html():`, error.message);
         }
@@ -51,6 +52,17 @@ export default class PropertiesListing extends HTMLElement {
                 grid-column-gap: 34px;
                 grid-row-gap: 50px;
             }
+
+            :host > #overlay.activated {
+                z-index: 199;
+                background-color: lightblue;
+                position: fixed;
+                left: 0;
+                right: 0;
+                background-color: var(--opaque-grey-1);
+                width: 100vw;
+                height: 100vh;
+            }
         </style>
         `;
     }
@@ -70,7 +82,6 @@ export default class PropertiesListing extends HTMLElement {
                 return (await import('../../data/listingData.js')).default;
             }
     }
-
 
     hydrate(listingData) {
         let html = ``;

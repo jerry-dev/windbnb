@@ -15,7 +15,7 @@ class WindbnbApp extends HTMLElement {
     render() {
         this.html();
         this.css();
-        this.script();
+        this.scripts();
     }
 
     html() {
@@ -79,19 +79,38 @@ class WindbnbApp extends HTMLElement {
         `;
     }
 
-    script() {
+    scripts() {
         this.searchMenuState();
-        this.selectClickedLocation();
-        this.filterLocationOnInput();
         this.attachSelectionToAttribute();
-        this.guestDetails();
-        this.search();
+    }
+
+    expandMenu() {
+        this.shadowRoot.querySelector('property-listing-menu').shadowRoot
+            .querySelector('search-menu').classList.add('expanded');
+
+        this.shadowRoot.querySelector('properties-listing').shadowRoot
+                .querySelector('#overlay').classList.add('activated');
+    }
+
+    collapseMenu() {
+        this.shadowRoot.querySelector('property-listing-menu').shadowRoot
+            .querySelector('search-menu').classList.remove('expanded');
+
+        this.shadowRoot.querySelector('properties-listing').shadowRoot
+            .querySelector('#overlay').classList.remove('activated');
+    }
+
+    isMenuActive() {
+        const answer = this.shadowRoot.querySelector('property-listing-menu').shadowRoot
+            .querySelector('search-menu').classList.contains('expanded');
+
+        return answer;
     }
 
     attachSelectionToAttribute() {
         let selectedLocation = this.shadowRoot.querySelector('property-listing-menu')
-        .shadowRoot.querySelector('search-menu')
-        .shadowRoot.querySelector('form > #locationSelect > input').value;
+            .shadowRoot.querySelector('search-menu')
+            .shadowRoot.querySelector('form > #locationSelect > input').value;
 
         this.shadowRoot.querySelector('properties-listing').setAttribute('location', selectedLocation);
     }
@@ -101,33 +120,49 @@ class WindbnbApp extends HTMLElement {
         const searchMenu = this.shadowRoot.querySelector('property-listing-menu').shadowRoot
             .querySelector('search-menu');
 
-        propertyListingMenu.shadowRoot.addEventListener('click', (event) => {
-            if (event.target === searchMenu && !searchMenu.classList.contains('expanded')) {
-                searchMenu.classList.add('expanded');
+        searchMenu.shadowRoot.addEventListener('click', (event) => {
+            const { id } = event.target;
+            switch (id) {
+                case 'searchText':
+                case 'search':
+                case 'searchIcon':
+                case 'searchGroup':
+                    this.search();
+                    break;
+            }
+
+            if (!this.isMenuActive()) {
+                switch (id) {
+                    case 'locationSelect':
+                    case 'locationSelectInput':
+                    case 'numberOfGuests':
+                    case 'numberOfGuestsInput':
+                        this.filterLocationOnInput();
+                        this.selectClickedLocation();
+                        this.guestDetails();
+                        this.expandMenu();
+                        break;
+                    default:
+                        break;
+                }
             }
         });
 
         this.shadowRoot.addEventListener('click', (event) => {
             const { target } = event;
-            if (searchMenu.classList.contains('expanded')) {
+            if (this.isMenuActive()) {
                 switch (target) {
                     case propertyListingMenu:
                         break;
                     default:
-                        searchMenu.classList.remove('expanded');
+                        this.collapseMenu();
                 }
             }
         });
 
         window.addEventListener('keydown', (event) => {
-            if (event.key === 'Escape' && searchMenu.classList.contains('expanded')) {
-                searchMenu.classList.remove('expanded');
-            }
-        });
-
-        window.addEventListener('click', (event) => {
-            if (event.target !== this && searchMenu.classList.contains('expanded')) {
-                searchMenu.classList.remove('expanded');
+            if (event.key === 'Escape' && this.isMenuActive()) {
+                this.collapseMenu();
             }
         });
     }
@@ -145,6 +180,7 @@ class WindbnbApp extends HTMLElement {
             if (event.target.getAttribute('value')) {
                 const clickedLocation = event.target.getAttribute('value');
                 locationSelectInput.value = clickedLocation;
+                this.attachSelectionToAttribute();
             }
         });
     }
@@ -186,59 +222,54 @@ class WindbnbApp extends HTMLElement {
             .querySelector('search-menu').shadowRoot
             .querySelector('form > #numberOfGuests > #guestDetails > #childrenCounter > span > #childCount');
 
-            guestDetails.addEventListener('click', (event) => {
-                const { id } = event.target
+        guestDetails.addEventListener('click', (event) => {
+            const { id } = event.target
 
-                switch(id) {
-                    case "adultDecrement":
-                        if (this.guests.adults === 0) {
-                            break;
-                        }
-                        this.guests.adults--;
-                        this.guests.totalGuests = (this.guests.adults + this.guests.children);
-                        numberOfGuestsDisplay.value = `${this.guests.totalGuests} guests`;
-                        adultCountDisplay.innerText = this.guests.adults;
+            switch(id) {
+                case "adultDecrement":
+                    if (this.guests.adults === 0) {
                         break;
-                    case "adultIncrement":
-                        if (this.guests.adults === 16) {
-                            break;
-                        }
-                        this.guests.adults++;
-                        this.guests.totalGuests = (this.guests.adults + this.guests.children);
-                        numberOfGuestsDisplay.value = `${this.guests.totalGuests} guests`;
-                        adultCountDisplay.innerText = this.guests.adults;
+                    }
+                    this.guests.adults--;
+                    this.guests.totalGuests = (this.guests.adults + this.guests.children);
+                    numberOfGuestsDisplay.value = `${this.guests.totalGuests} guests`;
+                    adultCountDisplay.innerText = this.guests.adults;
+                    break;
+                case "adultIncrement":
+                    if (this.guests.adults === 16) {
                         break;
-                    case "childrenDecrement":
-                        if (this.guests.children === 0) {
-                            break;
-                        }
-                        this.guests.children--;
-                        this.guests.totalGuests = (this.guests.adults + this.guests.children);
-                        numberOfGuestsDisplay.value = `${this.guests.totalGuests} guests`;
-                        childCountDisplay.innerText = this.guests.children;
+                    }
+                    this.guests.adults++;
+                    this.guests.totalGuests = (this.guests.adults + this.guests.children);
+                    numberOfGuestsDisplay.value = `${this.guests.totalGuests} guests`;
+                    adultCountDisplay.innerText = this.guests.adults;
+                    break;
+                case "childrenDecrement":
+                    if (this.guests.children === 0) {
                         break;
-                    case "childrenIncrement":
-                        if (this.guests.children === 5) {
-                            break;
-                        }
-                        this.guests.children++;
-                        this.guests.totalGuests = (this.guests.adults + this.guests.children);
-                        numberOfGuestsDisplay.value = `${this.guests.totalGuests} guests`;
-                        childCountDisplay.innerText = this.guests.children;
+                    }
+                    this.guests.children--;
+                    this.guests.totalGuests = (this.guests.adults + this.guests.children);
+                    numberOfGuestsDisplay.value = `${this.guests.totalGuests} guests`;
+                    childCountDisplay.innerText = this.guests.children;
+                    break;
+                case "childrenIncrement":
+                    if (this.guests.children === 5) {
                         break;
-                }
-            });
+                    }
+                    this.guests.children++;
+                    this.guests.totalGuests = (this.guests.adults + this.guests.children);
+                    numberOfGuestsDisplay.value = `${this.guests.totalGuests} guests`;
+                    childCountDisplay.innerText = this.guests.children;
+                    break;
+            }
+        });
     }
 
     search() {
-        const searchButton = this.shadowRoot.querySelector('property-listing-menu').shadowRoot
-            .querySelector('search-menu').shadowRoot
-            .querySelector('form > #search');
-
-        searchButton.addEventListener('click', () => {
-            this.attachSelectionToAttribute();
-            this.shadowRoot.querySelector('properties-listing').refresh();
-        });
+        this.shadowRoot.querySelector('properties-listing').refresh();
+        this.shadowRoot.querySelector('property-listing-menu').shadowRoot
+            .querySelector('search-menu').classList.remove('expanded');
     }
 }
 
