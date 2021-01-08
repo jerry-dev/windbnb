@@ -136,6 +136,14 @@ export default class SearchMenu extends HTMLElement {
                     text-align: center;
                     font-size: var(--font-size-5);
                     color: var(--grey-5);
+                    cursor: pointer;
+                }
+
+                #locationSelect > input,
+                #locationSelect > label,
+                #numberOfGuests > input,
+                #numberOfGuests > label {
+                    cursor: pointer;
                 }
 
                 #locationSelect {
@@ -156,11 +164,23 @@ export default class SearchMenu extends HTMLElement {
                     display: none;
                 }
 
+
+
+
+                #locationOptions {
+                    outline: 2px solid blue;
+                }
+
+
+
+
                 #locationOptions > li {
                     display: flex;
                     justify-content: flex-start;
                     align-items: center;
                     font-size: var(--font-size-5);
+
+                    outline: 1px solid red;
                 }
 
                 #locationOptions > li:not(:last-child) {
@@ -198,16 +218,16 @@ export default class SearchMenu extends HTMLElement {
     expandStateCSS() {
         this.shadowRoot.innerHTML += `
             <style>
-            :host(.expanded) {
-                height: 460px;
-                padding-top: 61px;
-                z-index: 200;
-                background-color: white;
-                position: fixed;
-                top: 0;
-                left: 0;
-                right: 0;                
-            }
+                :host(.expanded) {
+                    height: 460px;
+                    padding-top: 61px;
+                    z-index: 200;
+                    background-color: white;
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    right: 0;                
+                }
 
                 :host(.expanded) form > #locationSelect,
                 :host(.expanded) form > #numberOfGuests {
@@ -302,6 +322,10 @@ export default class SearchMenu extends HTMLElement {
                 }
             </style>
         `;
+    }
+
+    mobileCSSLayout() {
+
     }
 
     scripts() {

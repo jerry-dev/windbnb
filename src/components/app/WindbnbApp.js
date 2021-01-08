@@ -82,6 +82,9 @@ class WindbnbApp extends HTMLElement {
     scripts() {
         this.searchMenuState();
         this.attachSelectionToAttribute();
+        this.filterLocationOnInput();
+        this.selectClickedLocation();
+        this.guestDetails();
     }
 
     expandMenu() {
@@ -122,6 +125,10 @@ class WindbnbApp extends HTMLElement {
 
         searchMenu.shadowRoot.addEventListener('click', (event) => {
             const { id } = event.target;
+            if (!this.isMenuActive()) {
+                this.expandMenu();
+            }
+
             switch (id) {
                 case 'searchText':
                 case 'search':
@@ -129,22 +136,6 @@ class WindbnbApp extends HTMLElement {
                 case 'searchGroup':
                     this.search();
                     break;
-            }
-
-            if (!this.isMenuActive()) {
-                switch (id) {
-                    case 'locationSelect':
-                    case 'locationSelectInput':
-                    case 'numberOfGuests':
-                    case 'numberOfGuestsInput':
-                        this.filterLocationOnInput();
-                        this.selectClickedLocation();
-                        this.guestDetails();
-                        this.expandMenu();
-                        break;
-                    default:
-                        break;
-                }
             }
         });
 
@@ -202,7 +193,7 @@ class WindbnbApp extends HTMLElement {
                 if (!option.includes(selectedLocation)) {
                     locationOptions[i].style.display = "none";
                 } else {
-                    locationOptions[i].style.display = "block";
+                    locationOptions[i].style.display = "flex";
                 }
             }
         });
