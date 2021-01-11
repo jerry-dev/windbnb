@@ -164,23 +164,11 @@ export default class SearchMenu extends HTMLElement {
                     display: none;
                 }
 
-
-
-
-                #locationOptions {
-                    outline: 2px solid blue;
-                }
-
-
-
-
                 #locationOptions > li {
                     display: flex;
                     justify-content: flex-start;
                     align-items: center;
                     font-size: var(--font-size-5);
-
-                    outline: 1px solid red;
                 }
 
                 #locationOptions > li:not(:last-child) {

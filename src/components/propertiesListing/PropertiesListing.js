@@ -48,9 +48,30 @@ export default class PropertiesListing extends HTMLElement {
                 position: relative;
                 z-index: 5;
                 display: grid;
-                grid-template-columns: repeat(3, minmax(197.5px, 395px));
+                grid-template-columns: repeat(3, minmax(79px, 395px));
                 grid-column-gap: 34px;
                 grid-row-gap: 50px;
+            }
+
+            .block {
+                background-color: lightblue;
+                OUTLINE: 3PX SOLID BLACK;
+                position: relative;
+            }
+
+            .block::before {
+                content: "";
+                padding-top: 100%;
+                display: block;
+            }
+
+            property-card {
+                OUTLINE: 2PX SOLID RED;
+                position: absolute;
+                left: 0;
+                top: 0;
+                bottom: 0;
+                margin: auto;
             }
 
             :host > #overlay.activated {
@@ -86,7 +107,8 @@ export default class PropertiesListing extends HTMLElement {
     hydrate(listingData) {
         let html = ``;
         for (let i = 0; i < listingData.length; i++) {
-                html += `
+            html += `
+                <div class="block">
                     <property-card id="listing-${i+1}"
                         imageSrc="${listingData[i].photo}"
                         title="${listingData[i].title}"
@@ -95,7 +117,9 @@ export default class PropertiesListing extends HTMLElement {
                         rooms="${listingData[i].beds}"
                         ratings="${listingData[i].rating}"
                     >
-                    </property-card>`;
+                    </property-card>
+                </div>
+                `;
         }
         return html;
     }

@@ -38,7 +38,7 @@ export default class PropertyListingMenu extends HTMLElement {
                     width: 100%;
                     padding-top: 32px;
                     display: grid;
-                    grid-template-columns: repeat(3, minmax(197.5px, 395px));
+                    grid-template-columns: repeat(3, minmax(79px, 395px));
                     grid-column-gap: 34px;
                     grid-row-gap: 50px;
                 }

@@ -22,7 +22,7 @@ export default class PropertyCard extends HTMLElement {
         this.template();
         this.css();
     }
-
+533
     css() {
         this.shadowRoot.innerHTML += `
         <style>
@@ -31,15 +31,19 @@ export default class PropertyCard extends HTMLElement {
                 margin: 0;
             }
 
-            .listing {
-                grid-column: span 1;
+            .listing > figure {
+                width: 100%;
+                margin-bottom: 15px;
+                overflow: hidden;
             }
 
-            .listing img {
-                width: 100%;
-                height: 269px;
+            .listing > figure > img {
+                object-fit: fill;
                 border-radius: 25px;
-                margin-bottom: 15px;
+                height: 100%;
+                max-height: 275px;
+                width: 100%;
+                display: block;
             }
 
             .listing ul {
@@ -83,8 +87,6 @@ export default class PropertyCard extends HTMLElement {
                 margin-right: 7.12px;
             }
 
-            .rating > img {}
-
             h3 {
                 font-size: var(--font-size-6);
             }
@@ -92,10 +94,14 @@ export default class PropertyCard extends HTMLElement {
         `;
     }
 
+    
+
     template() {
         this.shadowRoot.innerHTML += `
             <article class="listing">
-                <img src="${this.getAttribute('imageSrc')}">
+                <figure>
+                    <img src="${this.getAttribute('imageSrc')}">
+                </figure>
                 <div>
                     <ul>
                         ${this.superHost(this.getAttribute('hostStatus'))}
@@ -107,6 +113,24 @@ export default class PropertyCard extends HTMLElement {
             </article>
         `;
     }
+
+    // template() {
+    //     this.shadowRoot.innerHTML += `
+    //         <article class="listing">
+    //             <figure>
+    //                 <div class="img" style="background-image: url(${this.getAttribute('imageSrc')})"></div>
+    //             </figure>
+    //             <div>
+    //                 <ul>
+    //                     ${this.superHost(this.getAttribute('hostStatus'))}
+    //                     ${this.propertyType(this.getAttribute('propertyType'))}
+    //                     ${this.ratings(this.getAttribute('ratings'))}
+    //                 </ul>
+    //                 <h3>${this.getAttribute('title')}</h3>
+    //             </div>
+    //         </article>
+    //     `;
+    // }
 
     superHost(status) {
         if (status === 'true') {
