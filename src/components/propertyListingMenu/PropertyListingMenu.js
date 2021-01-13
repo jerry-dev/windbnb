@@ -14,6 +14,7 @@ export default class PropertyListingMenu extends HTMLElement {
     render() {
         this.html();
         this.css();
+        this.mobileCSS();
     }
 
     html() {
@@ -43,6 +44,28 @@ export default class PropertyListingMenu extends HTMLElement {
                     grid-row-gap: 50px;
                 }
             </stlye>
+        `;
+    }
+
+    mobileCSS() {
+        this.shadowRoot.innerHTML += `
+        <style>
+            @media (max-width: 575.98px) {
+
+                :host {
+                    z-index: 50;
+                    height: 167px;
+                }
+
+                #propertyListingMenuContainer {
+                    padding-top: 22px;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+                    gap: 0;
+                }
+            }
+        </style>
         `;
     }
 }

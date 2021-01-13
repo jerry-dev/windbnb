@@ -23,6 +23,7 @@ export default class PropertiesListing extends HTMLElement {
     render() {
         this.html();
         this.css();
+        this.mobileCSS();
     }
 
     async html() {
@@ -48,14 +49,12 @@ export default class PropertiesListing extends HTMLElement {
                 position: relative;
                 z-index: 5;
                 display: grid;
-                grid-template-columns: repeat(3, minmax(79px, 395px));
+                grid-template-columns: repeat(3, min(31.52%, 350px));
                 grid-column-gap: 34px;
                 grid-row-gap: 50px;
             }
 
             .block {
-                background-color: lightblue;
-                OUTLINE: 3PX SOLID BLACK;
                 position: relative;
             }
 
@@ -66,7 +65,6 @@ export default class PropertiesListing extends HTMLElement {
             }
 
             property-card {
-                OUTLINE: 2PX SOLID RED;
                 position: absolute;
                 left: 0;
                 top: 0;
@@ -74,15 +72,42 @@ export default class PropertiesListing extends HTMLElement {
                 margin: auto;
             }
 
+            :host > #overlay {
+                display: none;
+            }            
+
             :host > #overlay.activated {
+                display: block;
                 z-index: 199;
-                background-color: lightblue;
                 position: fixed;
                 left: 0;
                 right: 0;
                 background-color: var(--opaque-grey-1);
                 width: 100vw;
                 height: 100vh;
+            }
+        </style>
+        `;
+    }
+
+    mobileCSS() {
+        this.shadowRoot.innerHTML += `
+        <style>
+            *, *::before, *::after {
+                padding: 0;
+                margin: 0;
+            }
+
+            @media (max-width: 575.98px) {
+                :host {
+                    XXXgrid-template-rows: min(316.93px);
+                    XXXgrid-template-columns: min(350px);
+                    grid-template-columns: 100%;
+                    grid-auto-rows: max(316.93px);
+                    grid-row-gap: 32px;
+                    justify-content: center;
+                    grid-template-columns: min(350px);
+                }
             }
         </style>
         `;

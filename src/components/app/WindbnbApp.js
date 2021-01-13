@@ -15,6 +15,7 @@ class WindbnbApp extends HTMLElement {
     render() {
         this.html();
         this.css();
+        this.mobileCSS();
         this.scripts();
     }
 
@@ -78,13 +79,51 @@ class WindbnbApp extends HTMLElement {
         `;
     }
 
+    mobileCSS() {
+        this.shadowRoot.innerHTML += `
+        <style>
+            @media (max-width: 575.98px) {
+                :host {
+                    
+                }
+            }
+        </style>
+        `;
+    }
+
     scripts() {
         this.searchMenuState();
         this.attachSelectionToAttribute();
         this.filterLocationOnInput();
         this.selectClickedLocation();
         this.guestDetails();
+        // this.viewPortObserver();
     }
+
+    // viewPortObserver() {
+    //     window.addEventListener('load', () => {
+    //         this.toggleMobileClass();
+    //     });
+
+    //     window.addEventListener('resize', () => {
+    //         this.toggleMobileClass();
+    //     });
+    // }
+
+    // toggleMobileClass() {
+    //     const propertiesListing = this.shadowRoot.querySelector('properties-listing');
+
+    //     let viewPort = window.innerWidth;
+
+    //     if (viewPort < 700 && !propertiesListing.classList.contains('mobile')) {
+    //         propertiesListing.classList.add('mobile');
+    //     }
+
+    //     if (viewPort > 700 && propertiesListing.classList.contains('mobile')) {
+    //         propertiesListing.classList.remove('mobile');
+    //     }
+
+    // }
 
     expandMenu() {
         this.shadowRoot.querySelector('property-listing-menu').shadowRoot

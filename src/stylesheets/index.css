@@ -43,3 +43,10 @@ body {
     margin-right: auto;
     margin-left: auto;
 }
+
+@media (max-width: 575.98px) {
+    #app-wrapper {
+        padding-left: 13px;
+        padding-right: 13px;
+    }
+}

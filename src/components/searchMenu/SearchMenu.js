@@ -13,6 +13,7 @@ export default class SearchMenu extends HTMLElement {
     render() {
         this.html();
         this.css();
+        this.mobileCSS();
         this.expandStateCSS();
         this.scripts();
     }
@@ -81,9 +82,6 @@ export default class SearchMenu extends HTMLElement {
                 }
 
                 form {
-                    max-width: 1253px;
-                    margin-left: auto;
-                    margin-right: auto;
                     display: flex;
                     flex-direction: row;
                     height: 55px;
@@ -124,15 +122,22 @@ export default class SearchMenu extends HTMLElement {
                 }
                 
                 #numberOfGuests {
-                    width: 106px;
+                   width: 106px;
+                }
+
+                #locationSelect {
+                    width: 138px;
+                }
+
+                #locationSelect > input,
+                #numberOfGuests > input {
+                    padding-left: 16px;
                 }
 
                 #locationSelect,
                 #numberOfGuests {
                     padding-top: 19px;
-                    padding-right: 16px;
-                    padding-bottom: 10px;
-                    padding-left: 16px;
+                    padding-bottom: 18px;
                     text-align: center;
                     font-size: var(--font-size-5);
                     color: var(--grey-5);
@@ -186,6 +191,7 @@ export default class SearchMenu extends HTMLElement {
                     justify-content: center;
                     align-items: center;
                     border-left: 1px solid #F2F2F2;
+                    border-radius: 16px;
                     width: 53px;
                 }
 
@@ -312,8 +318,33 @@ export default class SearchMenu extends HTMLElement {
         `;
     }
 
-    mobileCSSLayout() {
+    mobileCSS() {
+        this.shadowRoot.innerHTML += `
+        <style>
+            @media (max-width: 575.98px) {
+                :host {
+                    margin-left: auto;
+                    margin-right: auto;
+                    margin-bottom: 37px;
+                    height: 55px;
+                    max-width: 297px;
 
+                }
+
+                #locationSelect {
+                    Xmax-width: 138px;
+                }
+
+                #numberOfGuests {
+                    max-width: 106px;
+                }
+
+                #search {
+                    max-width: 53px;
+                }
+            }
+        </style>
+        `;
     }
 
     scripts() {

@@ -11,6 +11,7 @@ export default class windbnbLogo extends HTMLElement {
     render() {
         this.html();
         this.css();
+        this.mobileCSS();
     }
 
     html() {
@@ -35,6 +36,19 @@ export default class windbnbLogo extends HTMLElement {
                     z-index: 6;
                 }
             </style>
+        `;
+    }
+
+    mobileCSS() {
+        this.shadowRoot.innerHTML += `
+        <style>
+            @media (max-width: 575.98px) {
+                :host {
+                    height: 18.75px;
+                    margin-bottom: 39px;
+                }
+            }
+        </style>
         `;
     }
 }

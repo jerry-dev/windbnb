@@ -21,8 +21,9 @@ export default class PropertyCard extends HTMLElement {
     render() {
         this.template();
         this.css();
+        this.mobileCSS();
     }
-533
+
     css() {
         this.shadowRoot.innerHTML += `
         <style>
@@ -33,7 +34,7 @@ export default class PropertyCard extends HTMLElement {
 
             .listing > figure {
                 width: 100%;
-                margin-bottom: 15px;
+                margin-bottom: 21px;
                 overflow: hidden;
             }
 
@@ -44,6 +45,10 @@ export default class PropertyCard extends HTMLElement {
                 max-height: 275px;
                 width: 100%;
                 display: block;
+            }
+
+            .listing > div {
+                max-height: 75px;
             }
 
             .listing ul {
@@ -94,7 +99,48 @@ export default class PropertyCard extends HTMLElement {
         `;
     }
 
-    
+    mobileCSS() {
+        this.shadowRoot.innerHTML += `
+        <style>
+            @media (max-width: 575.98px) {
+                .listing > figure {
+                    height: 238.35px;
+                    margin-bottom: 13.29px;
+                }
+
+                .listing > div {
+                    height: 78.58px;
+                }
+
+                .superHost {
+                    font-size: var(--font-size-2);
+                    padding-top: 6.2px;
+                    padding-right: 7.97px;
+                    padding-bottom: 5.32px;
+                    padding-left: 8.86px;
+                    margin-right: 9.75px;
+                }
+
+                .listing ul {
+                    margin-bottom: 15.97px;
+                }
+
+                .propertyType,
+                .rating {
+                    font-size: var(--font-size-4);
+                }
+
+                .rating > img {
+                    margin-right: 6.31px;
+                }
+
+                h3 {
+                    font-size: var(--font-size-5);
+                }
+            }
+        </style>
+        `;
+    }
 
     template() {
         this.shadowRoot.innerHTML += `
@@ -113,24 +159,6 @@ export default class PropertyCard extends HTMLElement {
             </article>
         `;
     }
-
-    // template() {
-    //     this.shadowRoot.innerHTML += `
-    //         <article class="listing">
-    //             <figure>
-    //                 <div class="img" style="background-image: url(${this.getAttribute('imageSrc')})"></div>
-    //             </figure>
-    //             <div>
-    //                 <ul>
-    //                     ${this.superHost(this.getAttribute('hostStatus'))}
-    //                     ${this.propertyType(this.getAttribute('propertyType'))}
-    //                     ${this.ratings(this.getAttribute('ratings'))}
-    //                 </ul>
-    //                 <h3>${this.getAttribute('title')}</h3>
-    //             </div>
-    //         </article>
-    //     `;
-    // }
 
     superHost(status) {
         if (status === 'true') {
