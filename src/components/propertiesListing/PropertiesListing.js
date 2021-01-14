@@ -33,7 +33,7 @@ export default class PropertiesListing extends HTMLElement {
             this.shadowRoot.innerHTML += html;
             this.shadowRoot.innerHTML += `<span id="overlay"></span>`;
         } catch(error) {
-            console.log(`An error took @ properties-listing > html():`, error.message);
+            console.log(`An error took place @ properties-listing > html():`, error.message);
         }
     }
 
@@ -49,7 +49,7 @@ export default class PropertiesListing extends HTMLElement {
                 position: relative;
                 z-index: 5;
                 display: grid;
-                grid-template-columns: repeat(3, min(31.52%, 350px));
+                grid-template-columns: repeat(3, min(31.52%, 395px));
                 grid-column-gap: 34px;
                 grid-row-gap: 50px;
             }
@@ -100,8 +100,6 @@ export default class PropertiesListing extends HTMLElement {
 
             @media (max-width: 575.98px) {
                 :host {
-                    XXXgrid-template-rows: min(316.93px);
-                    XXXgrid-template-columns: min(350px);
                     grid-template-columns: 100%;
                     grid-auto-rows: max(316.93px);
                     grid-row-gap: 32px;

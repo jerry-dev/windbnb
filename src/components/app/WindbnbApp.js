@@ -27,7 +27,7 @@ class WindbnbApp extends HTMLElement {
                 <span id="days">12+ stays</span>
             </div>
             <properties-listing location></properties-listing>
-            <footer><p>Jerry Dormetus @ DevChallenges.io<p></footer>
+            <footer><span>Jerry Dormetus @ DevChallenges.io</span></footer>
         `;
     }
     
@@ -37,6 +37,10 @@ class WindbnbApp extends HTMLElement {
                 *, *::before, *::after {
                     padding: 0;
                     margin: 0;
+                }
+
+                properties-listing {
+                    margin-bottom: 85px;
                 }
 
                 :host {
@@ -64,16 +68,29 @@ class WindbnbApp extends HTMLElement {
                 }
 
                 footer {
-                    margin-top: 85px;
-                    margin-left: auto;
-                    margin-right: auto;
-                    padding-top: 23px;
+                    display: flex;
+                    width: 100%;
                 }
 
-                footer > p {
+                footer > span {
+                    margin-left: auto;
+                    margin-right: auto;
+                    position: relative;
+                    width: 300px;
                     color: var(--grey-1);
                     font-weight: 600;
                     font-size: var(--font-size-5);
+                }
+
+                footer > span::before {
+                    margin-bottom: 26px;
+                    display: block;
+                    content: "";
+                    height: 1px;
+                    postion: absolute;
+                    width: 100%;
+                    transform: scaleX(1.2);
+                    background-color: var(--grey-1);
                 }
             </style>
         `;
@@ -97,33 +114,7 @@ class WindbnbApp extends HTMLElement {
         this.filterLocationOnInput();
         this.selectClickedLocation();
         this.guestDetails();
-        // this.viewPortObserver();
     }
-
-    // viewPortObserver() {
-    //     window.addEventListener('load', () => {
-    //         this.toggleMobileClass();
-    //     });
-
-    //     window.addEventListener('resize', () => {
-    //         this.toggleMobileClass();
-    //     });
-    // }
-
-    // toggleMobileClass() {
-    //     const propertiesListing = this.shadowRoot.querySelector('properties-listing');
-
-    //     let viewPort = window.innerWidth;
-
-    //     if (viewPort < 700 && !propertiesListing.classList.contains('mobile')) {
-    //         propertiesListing.classList.add('mobile');
-    //     }
-
-    //     if (viewPort > 700 && propertiesListing.classList.contains('mobile')) {
-    //         propertiesListing.classList.remove('mobile');
-    //     }
-
-    // }
 
     expandMenu() {
         this.shadowRoot.querySelector('property-listing-menu').shadowRoot
@@ -139,12 +130,46 @@ class WindbnbApp extends HTMLElement {
 
         this.shadowRoot.querySelector('properties-listing').shadowRoot
             .querySelector('#overlay').classList.remove('activated');
+
+        this.locationControlsOff();
+        this.guestControlsOff();
+    }
+
+    locationControlsOn() {
+        const locationOptions = this.shadowRoot.querySelector('property-listing-menu').shadowRoot
+            .querySelector('search-menu').shadowRoot
+            .querySelector(`#customControls > #locationOptions`);
+
+            locationOptions.style.display = "block";
+    }
+
+    locationControlsOff() {
+        const locationOptions = this.shadowRoot.querySelector('property-listing-menu').shadowRoot
+            .querySelector('search-menu').shadowRoot
+            .querySelector(`#customControls > #locationOptions`);
+
+            locationOptions.style.display = "none";
+    }
+
+    guestControlsOn() {
+        const guestDetails = this.shadowRoot.querySelector('property-listing-menu').shadowRoot
+            .querySelector('search-menu').shadowRoot
+            .querySelector(`#customControls > #guestDetails`);
+
+            guestDetails.style.display = "block";
+    }
+
+    guestControlsOff() {
+        const guestDetails = this.shadowRoot.querySelector('property-listing-menu').shadowRoot
+            .querySelector('search-menu').shadowRoot
+            .querySelector(`#customControls > #guestDetails`);
+
+            guestDetails.style.display = "none";
     }
 
     isMenuActive() {
         const answer = this.shadowRoot.querySelector('property-listing-menu').shadowRoot
             .querySelector('search-menu').classList.contains('expanded');
-
         return answer;
     }
 
@@ -161,6 +186,7 @@ class WindbnbApp extends HTMLElement {
         const searchMenu = this.shadowRoot.querySelector('property-listing-menu').shadowRoot
             .querySelector('search-menu');
 
+
         searchMenu.shadowRoot.addEventListener('click', (event) => {
             const { id } = event.target;
             if (!this.isMenuActive()) {
@@ -173,6 +199,21 @@ class WindbnbApp extends HTMLElement {
                 case 'searchIcon':
                 case 'searchGroup':
                     this.search();
+                    this.locationControlsOff();
+                    this.guestControlsOff();
+                    break;
+                case 'locationSelect':
+                case 'locationSelectInput':
+                    this.locationControlsOn();
+                    this.guestControlsOff();
+                    break;
+                case 'numberOfGuests':
+                case 'numberOfGuestsInput':
+                    this.guestControlsOn();
+                    this.locationControlsOff();
+                    break;
+                case 'close':
+                    this.collapseMenu();
                     break;
             }
         });
@@ -199,7 +240,7 @@ class WindbnbApp extends HTMLElement {
     selectClickedLocation() {
         const locationList = this.shadowRoot.querySelector('property-listing-menu').shadowRoot
             .querySelector('search-menu').shadowRoot
-            .querySelector('form > #locationSelect > #locationOptions');
+            .querySelector('#customControls > #locationOptions');
         
         const locationSelectInput = this.shadowRoot.querySelector('property-listing-menu').shadowRoot
             .querySelector('search-menu').shadowRoot
@@ -221,7 +262,7 @@ class WindbnbApp extends HTMLElement {
 
         const locationList = this.shadowRoot.querySelector('property-listing-menu').shadowRoot
             .querySelector('search-menu').shadowRoot
-            .querySelector('form > #locationSelect > #locationOptions');
+            .querySelector('#customControls > #locationOptions');
 
         locationSelectInput.addEventListener('input', () => {
             let selectedLocation = locationSelectInput.value.toLowerCase();
@@ -238,18 +279,19 @@ class WindbnbApp extends HTMLElement {
     }
 
     guestDetails() {
-        const guestDetails = this.shadowRoot.querySelector('property-listing-menu').shadowRoot
-            .querySelector('search-menu').shadowRoot
-            .querySelector('form > #numberOfGuests > #guestDetails');
         const numberOfGuestsDisplay = this.shadowRoot.querySelector('property-listing-menu').shadowRoot
             .querySelector('search-menu').shadowRoot
             .querySelector('form > #numberOfGuests > input');
+
+        const guestDetails = this.shadowRoot.querySelector('property-listing-menu').shadowRoot
+            .querySelector('search-menu').shadowRoot
+            .querySelector('#customControls > #guestDetails');
         const adultCountDisplay = this.shadowRoot.querySelector('property-listing-menu').shadowRoot
             .querySelector('search-menu').shadowRoot
-            .querySelector('form > #numberOfGuests > #guestDetails > #adultCounter > span > #adultCount');
+            .querySelector('#customControls > #guestDetails > #adultCounter > span > #adultCount');
         const childCountDisplay = this.shadowRoot.querySelector('property-listing-menu').shadowRoot
             .querySelector('search-menu').shadowRoot
-            .querySelector('form > #numberOfGuests > #guestDetails > #childrenCounter > span > #childCount');
+            .querySelector('#customControls > #guestDetails > #childrenCounter > span > #childCount');
 
         guestDetails.addEventListener('click', (event) => {
             const { id } = event.target
@@ -287,9 +329,13 @@ class WindbnbApp extends HTMLElement {
                         break;
                     }
                     this.guests.children++;
+                    if (this.guests.adults === 0) {
+                        this.guests.adults++;
+                    }
                     this.guests.totalGuests = (this.guests.adults + this.guests.children);
                     numberOfGuestsDisplay.value = `${this.guests.totalGuests} guests`;
                     childCountDisplay.innerText = this.guests.children;
+                    adultCountDisplay.innerText = this.guests.adults;
                     break;
             }
         });

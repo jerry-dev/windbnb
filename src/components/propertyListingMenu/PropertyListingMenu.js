@@ -51,7 +51,6 @@ export default class PropertyListingMenu extends HTMLElement {
         this.shadowRoot.innerHTML += `
         <style>
             @media (max-width: 575.98px) {
-
                 :host {
                     z-index: 50;
                     height: 167px;

@@ -15,54 +15,66 @@ export default class SearchMenu extends HTMLElement {
         this.css();
         this.mobileCSS();
         this.expandStateCSS();
+        this.mobileExpandStateCSS();
+        this.expandStateCSSAnimation();
         this.scripts();
     }
 
     html() {
         this.shadowRoot.innerHTML += `
+            <div id="mobileTopRow"><p>Edit your search</p><img id="close" src="../src/assets/icons/close-svgrepo-com.svg"></div>
             <form autocomplete="off">
                 <span id="locationSelect" class="inputContainer">
                     <label for"locationSelect">Location</label>
                     <input type="text" id="locationSelectInput" name="locationSelect" value="Helsinki, Finland" placeholder="Add location">
-                    <ul id="locationOptions">
-                    </ul>
                 </span>
                 
                 <span id="numberOfGuests" class="inputContainer">
-
                     <label for"numberOfGuests">Guests</label>
                     <input type="text" id="numberOfGuestsInput" name="numberOfGuests" placeholder="Add guests" readonly>
-
-                    <div id="guestDetails">
-                        <div id="adultCounter" class="counter">
-                            <div class="demographic">Adult</div>
-                            <div class="demoLimit">Ages 13 or above</div>
-                            <span>
-                                <button type="button" id="adultDecrement">-</button>
-                                <span id="adultCount" class="countDisplay">0</span>
-                                <button type="button" id="adultIncrement">+</button>
-                            </span>
-                        </div>
-
-                        <div id="childrenCounter" class="counter">
-                            <div class="demographic">Children</div>
-                            <div class="demoLimit">Ages 2-12</div>
-                            <span>
-                                <button type="button" id="childrenDecrement">-</button>
-                                <span id="childCount" class="countDisplay">0</span>
-                                <button type="button" id="childrenIncrement">+</button>
-                            </span>
-                        </div>
-                    </div>
                 </span>
 
-                <button type="button" id="search" class="inputContainer">
+                <button type="button" id="search1" class="inputContainer searchButton">
                     <span id="searchGroup">
                         <img id="searchIcon" src="../src/assets/icons/icons8-search-24.png">
                         <span id="searchText">Search</span>
                     </span>
                 </button>
             </form>
+
+            <div id="customControls">
+                <ul id="locationOptions">
+                </ul>
+
+                <div id="guestDetails">
+                    <div id="adultCounter" class="counter">
+                        <div class="demographic">Adult</div>
+                        <div class="demoLimit">Ages 13 or above</div>
+                        <span>
+                            <button type="button" id="adultDecrement">-</button>
+                            <span id="adultCount" class="countDisplay">0</span>
+                            <button type="button" id="adultIncrement">+</button>
+                        </span>
+                    </div>
+
+                    <div id="childrenCounter" class="counter">
+                        <div class="demographic">Children</div>
+                        <div class="demoLimit">Ages 2-12</div>
+                        <span>
+                            <button type="button" id="childrenDecrement">-</button>
+                            <span id="childCount" class="countDisplay">0</span>
+                            <button type="button" id="childrenIncrement">+</button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <button type="button" id="search2" class="inputContainer searchButton">
+                    <span id="searchGroup">
+                        <img id="searchIcon" src="../src/assets/icons/icons8-search-24.png">
+                        <span id="searchText">Search</span>
+                    </span>
+            </button>
         `;
     }
 
@@ -79,6 +91,14 @@ export default class SearchMenu extends HTMLElement {
                     grid-column: -1;
                     grid-row: 1;
                     background-color: white;
+                }
+
+                :host > #mobileTopRow {
+                    display: none;
+                }
+
+                #search2 {
+                    display: none;
                 }
 
                 form {
@@ -127,11 +147,15 @@ export default class SearchMenu extends HTMLElement {
 
                 #locationSelect {
                     width: 138px;
+                    border-right: 1px solid #F2F2F2;
                 }
 
                 #locationSelect > input,
-                #numberOfGuests > input {
+                #locationSelect > label,
+                #numberOfGuests > input,
+                #numberOfGuests > label {
                     padding-left: 16px;
+                    cursor: pointer;
                 }
 
                 #locationSelect,
@@ -145,62 +169,50 @@ export default class SearchMenu extends HTMLElement {
                 }
 
                 #locationSelect > input,
-                #locationSelect > label,
-                #numberOfGuests > input,
-                #numberOfGuests > label {
-                    cursor: pointer;
+                #numberOfGuests > input {
+                    max-width: 200px;
+                    
                 }
 
-                #locationSelect {
-                    border-right: 1px solid #F2F2F2;
+                ##locationSelect,
+                #numberOfGuests {
+                    max-width: 33.92%;
                 }
 
                 #locationOptions,
                 #guestDetails {
+                    display: none;
                     padding: 0;
-                    position: relative;
-                    top: 52px;
                     z-index: 10;
                     list-style: none;
-                }
-
-                :host form > #locationSelect > #locationOptions,
-                :host form > #numberOfGuests > #guestDetails {
-                    display: none;
-                }
-
-                #locationOptions > li {
-                    display: flex;
-                    justify-content: flex-start;
-                    align-items: center;
-                    font-size: var(--font-size-5);
                 }
 
                 #locationOptions > li:not(:last-child) {
                     margin-bottom: 36px;
                 }
 
-                #locationOptions img {
+                #locationOptions li img {
                     width: 14px;
                     height: 19.47px;
                     margin-right: 10px;
+                    padding: 0;
                 }
 
-                #search {
+                .searchButton {
                     display: flex;
                     justify-content: center;
                     align-items: center;
                     border-left: 1px solid #F2F2F2;
-                    border-radius: 16px;
                     width: 53px;
+                    
                 }
-
-                #search > #searchGroup {
+                
+                .searchButton > #searchGroup {
                     justify-content: center;
                     align-items: center;
                 }
 
-                #search > #searchGroup > #searchText {
+                .searchButton > #searchGroup > #searchText {
                     display: none;
                     color: white;
                     margin-left: 10.95px;
@@ -220,7 +232,14 @@ export default class SearchMenu extends HTMLElement {
                     position: fixed;
                     top: 0;
                     left: 0;
-                    right: 0;                
+                    right: 0;        
+                }
+
+                :host(.expanded) > form,
+                :host(.expanded) > #customControls {
+                    max-width: 1253px;
+                    margin-right: auto;
+                    margin-left: auto;
                 }
 
                 :host(.expanded) form > #locationSelect,
@@ -244,40 +263,53 @@ export default class SearchMenu extends HTMLElement {
                     display: block;
                 }
 
-                :host(.expanded) > form > #numberOfGuests > input:focus ~ #guestDetails,
-                :host(.expanded) > form > #numberOfGuests > input ~ #guestDetails:hover {
+                :host(.expanded) #guestDetails {
                     width: 114px;
                     display: flex;
                     flex-direction: column;
                     font-family: var(--font-style-3);
                     cursor: default;
+                    margin-left: 33.5%;
                 }
 
-                :host(.expanded) > form > #numberOfGuests > #guestDetails > #adultCounter {
+                :host(.expanded) > #customControls {
+                    margin-top: 52px;
+                }
+
+                :host(.expanded) > #customControls > #locationOptions > li {
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: flex-start;
+                    align-items: center;
+                    font-size: var(--font-size-5);
+                    cursor: pointer;
+                }
+
+                :host(.expanded) #guestDetails > #adultCounter {
                     margin-bottom: 52px;
                 }
 
-                :host(.expanded) > form > #numberOfGuests > input ~ #guestDetails > .counter > .demographic {
+                :host(.expanded) #guestDetails > .counter > .demographic {
                     font-size: var(--font-size-5);
                     font-weight: bold;
                 }
 
-                :host(.expanded) > form > #numberOfGuests > input ~ #guestDetails > .counter > .demoLimit {
+                :host(.expanded) #guestDetails > .counter > .demoLimit {
                     font-size: var(--font-size-5);
                     font-weight: 400;
                     color: var(--grey-1);
                 }
 
-                :host(.expanded) > form > #numberOfGuests > input ~ #guestDetails > .counter > * {
+                :host(.expanded) #guestDetails > .counter > * {
                     display: flex;
                     align-items: center;
                 }
 
-                :host(.expanded) > form > #numberOfGuests > input ~ #guestDetails > .counter > span {
+                :host(.expanded) .counter > span {
                     margin-top: 12px;
                 }
 
-                :host(.expanded) > form > #numberOfGuests > input ~ #guestDetails > .counter > span > button {
+                :host(.expanded) #guestDetails > .counter > span > button {
                     width: 23px;
                     height: 23px;
                     border-radius: 4px;
@@ -286,17 +318,21 @@ export default class SearchMenu extends HTMLElement {
                     cursor: pointer;
                 }
 
-                :host(.expanded) > form > #numberOfGuests > input ~ #guestDetails > .counter > span > .countDisplay {
+                :host(.expanded) .countDisplay {
                     font-weight: bold;
                     margin-right: 15px;
                     margin-left: 15px;
                 }
 
-                :host(.expanded) > form > #search {
+                :host(.expanded) #search1 {
+                    width: 31.52%;
+                }
+
+                :host(.expanded) > .searchButton {
                     width: 395px;
                 }
 
-                :host(.expanded) form > #search > #searchGroup {
+                :host(.expanded) .searchButton > #searchGroup {
                     margin-left: auto;
                     margin-right: auto;
                     width: 127px;
@@ -306,13 +342,104 @@ export default class SearchMenu extends HTMLElement {
                     border-radius: 16px;
                 }
 
-                :host(.expanded) form > #search > #searchGroup > #searchText {
+                :host(.expanded) #searchGroup > #searchText {
                     display: block;
                 }
+            </style>
+        `;
+    }
 
-                :host(.expanded) form > #locationSelect > input:focus ~ #locationOptions,
-                :host(.expanded) form > #locationSelect > #locationOptions:active {
-                    display: block;
+    expandStateCSSAnimation() {
+        this.shadowRoot.innerHTML += `
+            <style>
+                :host(.expanded) {
+                    animation-name: expanded-animation;
+                    animation-duration: 0.3s;
+                    animation-iteration-count: 1;
+                    animation-timing-function: linear;
+                }
+
+                :host(.expanded) > form {
+                    animation-name: form-expanded;
+                    animation-duration: 0.3s;
+                    animation-iteration-count: 1;
+                    animation-timing-function: linear;
+                }
+
+                :host(.expanded) > #customControls > * {
+                    animation-name: controls-expanded;
+                    animation-duration: 0.3s;
+                    animation-iteration-count: 1;
+                    animation-timing-function: ease-out;
+                }
+
+                @keyframes expanded-animation {
+                    0% {
+                        transform: scale(0.6);
+                        transform-origin: 100% 0%;
+                    }
+                    100% {
+                        transform: scale(1);
+                        transform-origin: 100% 0%;
+                    }
+                }
+
+                @keyframes form-expanded {
+                    0% {
+                        transform: scaleX(0.5);
+                        transform-origin: right;
+                    }
+                    100% {
+                        transform: scaleX(1);
+                        transform-origin: right;
+                    }
+                }
+
+                @keyframes controls-expanded {
+                    0% {
+                        opacity: 0;
+                    }
+                    100% {
+                        opacity: 1;
+                    }
+                }
+
+                @media (max-width: 575.98px) {
+                    :host(.expanded) {
+                        animation-name: expanded-animation;
+                        animation-duration: 0.15s;
+                        animation-iteration-count: 1;
+                        animation-timing-function: linear;
+                    }
+
+                    :host(.expanded) > form {
+                        animation-name: form-expanded;
+                        animation-duration: 0.15s;
+                        animation-iteration-count: 1;
+                        animation-timing-function: linear;
+                    }
+
+                    @keyframes expanded-animation {
+                        0% {
+                            transform: scale(0.6);
+                            transform-origin: top;
+                        }
+                        100% {
+                            transform: scale(1);
+                            transform-origin: top;
+                        }
+                    }
+
+                    @keyframes form-expanded {
+                        0% {
+                            transform: scaleY(0.5);
+                            transform-origin: bottom;
+                        }
+                        100% {
+                            transform: scaleY(1);
+                            transform-origin: bottom;
+                        }
+                    }
                 }
             </style>
         `;
@@ -328,22 +455,85 @@ export default class SearchMenu extends HTMLElement {
                     margin-bottom: 37px;
                     height: 55px;
                     max-width: 297px;
-
-                }
-
-                #locationSelect {
-                    Xmax-width: 138px;
-                }
-
-                #numberOfGuests {
-                    max-width: 106px;
-                }
-
-                #search {
-                    max-width: 53px;
                 }
             }
         </style>
+        `;
+    }
+
+    mobileExpandStateCSS() {
+        this.shadowRoot.innerHTML += `
+            <style>
+                @media (max-width: 575.98px) {
+                    :host(.expanded) {
+                        display: flex;
+                        flex-direction: column;
+                        align-items: center;
+                        max-width: 100vw;
+                        height: 632px;
+                        z-index: 200;
+                        padding-top: 18px;
+                        padding-left: 13px;
+                        padding-right: 13px;
+                        padding-bottom: 24px;
+                    }
+
+                :host(.expanded) > form {
+                    max-width: 100%;
+                    flex-direction: column;
+                    height: 114px;
+                    box-shadow: 0px 1px 6px rgba(0, 0, 0, 0.1);
+                }
+
+                :host(.expanded) > #mobileTopRow {
+                    width: 100%;
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: space-between;                    
+                    margin-bottom: 10px;
+                    color: var(--grey-5);
+                }
+
+                :host(.expanded) > #mobileTopRow > p {
+                    font-size: var(--font-size-4);
+                    font-weight: bold;
+                }
+
+                :host(.expanded) > #mobileTopRow > img {
+                    width: 13.18px;
+                    height: 13.18px;
+                }
+
+                :host(.expanded) > form > #locationSelect,
+                :host(.expanded) > form > #numberOfGuests {
+                    height: 57px;
+                    padding-top: 11px;
+                    padding-bottom: 12px;
+                    border: none;
+                }
+
+                :host(.expanded) > form > #locationSelect {
+                    border-bottom: 1px solid #F2F2F2;
+                }
+
+                :host(.expanded) > form > #search1 {
+                    display: none;
+                }
+
+                :host(.expanded) #guestDetails {
+                    margin-left: 0%;
+                }
+
+                :host(.expanded) > #customControls {
+                    margin-left: 13px;
+                    margin-top: 36px;
+                }
+
+                :host(.expanded) #search2 {
+                    display: block;
+                    margin-top: auto;
+                }
+            </style>
         `;
     }
 
@@ -404,11 +594,12 @@ export default class SearchMenu extends HTMLElement {
     async renderLocationList() {
         try {
             const locations = await this.getDestinctLocations();
+            locations.sort();
             let html = ``;
             for (let i = 0; i < locations.length; i++) {
-                    html += `<li value="${locations[i]}"><span><img src="../src/assets/icons/location-pin-svgrepo-com.svg" class="pin"></span>${locations[i]}</li>`;
+                    html += `<li value="${locations[i]}"><img src="../src/assets/icons/location-pin-svgrepo-com.svg" class="pin">${locations[i]}</li>`;
             }
-            this.shadowRoot.querySelector('form #locationSelect #locationOptions').innerHTML += html;
+            this.shadowRoot.querySelector('#customControls > #locationOptions').innerHTML += html;
         } catch (error) {
             console.log(`Error @ renderLocationList(): ${error}`);
         }
