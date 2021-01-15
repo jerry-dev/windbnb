@@ -24,6 +24,7 @@ export default class PropertiesListing extends HTMLElement {
         this.html();
         this.css();
         this.mobileCSS();
+        this.loadInAnimationCSS();
     }
 
     async html() {
@@ -108,6 +109,28 @@ export default class PropertiesListing extends HTMLElement {
                 }
             }
         </style>
+        `;
+    }
+
+    loadInAnimationCSS() {
+        this.shadowRoot.innerHTML += `
+            <style>
+                property-card {
+                    animation-name: load-animation;
+                    animation-duration: 0.3s;
+                    animation-iteration-count: 1;
+                    animation-timing-function: linear;
+                }
+
+                @keyframes load-animation {
+                    0% {
+                        opacity: 0;
+                    }
+                    100% {
+                        opacity: 1;
+                    }
+                }
+            </style>
         `;
     }
 

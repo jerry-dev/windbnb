@@ -25,12 +25,12 @@ export default class SearchMenu extends HTMLElement {
             <div id="mobileTopRow"><p>Edit your search</p><img id="close" src="../src/assets/icons/close-svgrepo-com.svg"></div>
             <form autocomplete="off">
                 <span id="locationSelect" class="inputContainer">
-                    <label for"locationSelect">Location</label>
+                    <label for="locationSelect" id="locationSelectLabel">Location</label>
                     <input type="text" id="locationSelectInput" name="locationSelect" value="Helsinki, Finland" placeholder="Add location">
                 </span>
                 
                 <span id="numberOfGuests" class="inputContainer">
-                    <label for"numberOfGuests">Guests</label>
+                    <label for="numberOfGuests" id="guestInputLabel">Guests</label>
                     <input type="text" id="numberOfGuestsInput" name="numberOfGuests" placeholder="Add guests" readonly>
                 </span>
 

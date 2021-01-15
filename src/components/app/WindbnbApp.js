@@ -15,7 +15,6 @@ class WindbnbApp extends HTMLElement {
     render() {
         this.html();
         this.css();
-        this.mobileCSS();
         this.scripts();
     }
 
@@ -93,18 +92,6 @@ class WindbnbApp extends HTMLElement {
                     background-color: var(--grey-1);
                 }
             </style>
-        `;
-    }
-
-    mobileCSS() {
-        this.shadowRoot.innerHTML += `
-        <style>
-            @media (max-width: 575.98px) {
-                :host {
-                    
-                }
-            }
-        </style>
         `;
     }
 
@@ -204,11 +191,13 @@ class WindbnbApp extends HTMLElement {
                     break;
                 case 'locationSelect':
                 case 'locationSelectInput':
+                case 'locationSelectLabel':
                     this.locationControlsOn();
                     this.guestControlsOff();
                     break;
                 case 'numberOfGuests':
                 case 'numberOfGuestsInput':
+                case 'guestInputLabel':
                     this.guestControlsOn();
                     this.locationControlsOff();
                     break;
