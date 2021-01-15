@@ -270,6 +270,7 @@ export default class SearchMenu extends HTMLElement {
                     font-family: var(--font-style-3);
                     cursor: default;
                     margin-left: 33.5%;
+                    margin-left: 27%;
                 }
 
                 :host(.expanded) > #customControls {
