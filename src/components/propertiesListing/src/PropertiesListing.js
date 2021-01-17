@@ -1,4 +1,4 @@
-import PropertyCard from '../propertycard/PropertyCard.js';
+import PropertyCard from '../../propertycard/PropertyCard.js';
 
 export default class PropertiesListing extends HTMLElement {
     static get observedAttributes() {
@@ -136,7 +136,7 @@ export default class PropertiesListing extends HTMLElement {
 
     async propertyDataFetch(location) {
             if (location) {
-                let data = (await import('../../data/listingData.js')).default;
+                let data = (await import('../../../data/listingData.js')).default;
                 let filteredContainer = [];
                 for (let i = 0; i < data.length; i++) {
                     let propertyLocation = `${data[i].city}, ${data[i].country}`;
@@ -146,7 +146,7 @@ export default class PropertiesListing extends HTMLElement {
                 }
                 return filteredContainer;
             } else {
-                return (await import('../../data/listingData.js')).default;
+                return (await import('../../../data/listingData.js')).default;
             }
     }
 

@@ -1,4 +1,4 @@
-import listingData from '../../data/listingData.js';
+import listingData from '../../../data/listingData.js';
 
 export default class SearchMenu extends HTMLElement {
     constructor() {
@@ -543,7 +543,7 @@ export default class SearchMenu extends HTMLElement {
     }
 
     async dataSetFetch() {
-        return (await import('../../data/listingData.js')).default;
+        return (await import('../../../data/listingData.js')).default;
     }
 
     async getDestinctLocations() {      
@@ -610,3 +610,4 @@ export default class SearchMenu extends HTMLElement {
 if (!customElements.get('search-menu')) {
     customElements.define('search-menu', SearchMenu);
 }
+ 

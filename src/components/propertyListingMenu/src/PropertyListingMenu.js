@@ -1,5 +1,5 @@
-import SearchMenu from '../searchMenu/SearchMenu.js';
-import windbnbLogo from '../windbnbLogo/WindbnbLogo.js';
+import SearchMenu from '../../searchMenu/src/SearchMenu.js';
+import windbnbLogo from '../../windbnbLogo/src/WindbnbLogo.js';
 
 export default class PropertyListingMenu extends HTMLElement {
     constructor() {

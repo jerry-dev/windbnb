@@ -1,5 +1,5 @@
-import PropertyListingMenu from '../propertyListingMenu/PropertyListingMenu.js';
-import PropertiesListing from '../propertiesListing/PropertiesListing.js';
+import PropertyListingMenu from '../../propertyListingMenu/src/PropertyListingMenu.js';
+import PropertiesListing from '../../propertiesListing/src/PropertiesListing.js';
 
 class WindbnbApp extends HTMLElement {    
     constructor() {
