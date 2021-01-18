@@ -291,6 +291,10 @@ class WindbnbApp extends HTMLElement {
                         break;
                     }
                     this.guests.adults--;
+                    if (this.guests.adults === 0) {
+                        this.guests.children = 0;
+                        childCountDisplay.innerText = this.guests.children;
+                    }
                     this.guests.totalGuests = (this.guests.adults + this.guests.children);
                     numberOfGuestsDisplay.value = `${this.guests.totalGuests} guests`;
                     adultCountDisplay.innerText = this.guests.adults;

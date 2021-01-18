@@ -1,0 +1,53 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Mulish&family=Poppins:wght@700&display=swap');
+
+:root {
+    --font-size-1: 9px;
+    --font-size-2: 10px;
+    --font-size-3: 11px;
+    --font-size-4: 12px;
+    --font-size-5: 14px;
+    --font-size-6: 16px;
+    --font-size-7: 24px;
+    --font-style-1: Montserrat;
+    --font-style-2: Poppins;
+    --font-style-3: Mulish;
+    --grey-0: rgba(255, 255, 255, 1);
+    --grey-1: rgba(189, 189, 189, 1);
+    --grey-3: rgba(130, 130, 130, 1);
+    --grey-4: rgba(79, 79, 79, 1);
+    --grey-5: rgba(51, 51, 51, 1);
+    --opaque-grey-1: rgba(79, 79, 79, 0.5);
+    --red-1: rgba(235, 87, 87, 1);
+}
+
+html {
+    height: 100%;
+    box-sizing: border-box;
+}
+
+*, *::before, *::after {
+    padding: 0;
+    margin: 0;
+    box-sizing: inherit;
+}
+
+body {
+   min-height: 100%;
+   font-family: var(--font-style-1);
+}
+
+#app-wrapper {
+    max-width: 1253px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+@media (max-width: 575.98px) {
+    #app-wrapper {
+        padding-left: 13px;
+        padding-right: 13px;
+    }
+}
