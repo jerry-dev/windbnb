@@ -48,6 +48,7 @@ export default class PropertyCard extends HTMLElement {
             }
 
             .listing > div {
+                width: 100%;
                 max-height: 75px;
             }
 
@@ -58,6 +59,7 @@ export default class PropertyCard extends HTMLElement {
                 list-style: none;
                 height: 28px;
                 margin-bottom: 19px;
+                width: 100%;
             }
 
             .superHost {
@@ -71,6 +73,7 @@ export default class PropertyCard extends HTMLElement {
                 font-size: var(--font-size-4);
                 line-height: 15px;
                 font-weight: bold;
+                white-space: nowrap;
             }
 
             .propertyType {
