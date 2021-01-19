@@ -70,7 +70,7 @@ export default class PropertyCard extends HTMLElement {
                 margin-right: 11px;
                 border: 1px solid black;
                 border-radius: 25px;
-                font-size: var(--font-size-4);
+                font-size: clamp(9px, 1vw, var(--font-size-4));
                 line-height: 15px;
                 font-weight: bold;
                 white-space: nowrap;
