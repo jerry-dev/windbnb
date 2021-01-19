@@ -37,12 +37,12 @@ html {
 body {
    min-height: 100%;
    font-family: var(--font-style-1);
-   padding-left: 13px;
-   padding-right: 13px;
 }
 
 #app-wrapper {
     max-width: 1253px;
+    padding-left: 13px;
+    padding-right: 13px;
     margin-right: auto;
     margin-left: auto;
 }

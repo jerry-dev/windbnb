@@ -50,7 +50,7 @@ export default class PropertiesListing extends HTMLElement {
                 position: relative;
                 z-index: 5;
                 display: grid;
-                grid-template-columns: repeat(3, min(31.52%, 395px));
+                grid-template-columns: repeat(3, minmax(min(10%, 100%), 1fr));
                 grid-column-gap: 34px;
                 grid-row-gap: 50px;
             }
