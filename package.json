@@ -4,9 +4,10 @@
   "main": "index.js",
   "scripts": {
     "test": "echo 'Hello from package.json'",
+    "stylesheetCopy": "cp -r src/stylesheets/index.css dist/src/stylesheets/index.css", 
     "rollup-bundle": "./node_modules/.bin/rollup src/components/app/src/WindbnbApp.js --file dist/src/components/app/WindbnbApp.js --format umd --name Windbnbapp -m",
     "terser-mangle": "./node_modules/.bin/terser dist/src/components/app/WindbnbApp.js --output dist/src/components/app/WindbnbApp.js --mangle",
-    "build": "npm run rollup-bundle && npm run terser-mangle"
+    "build": "npm run stylesheetCopy && npm run rollup-bundle && npm run terser-mangle"
   },
   "keywords": [],
   "author": "",
