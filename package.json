@@ -4,8 +4,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo 'Hello from package.json'",
-    "rollup-bundle": "./node_modules/.bin/rollup src/components/app/src/WindbnbApp.js --file dist/components/app/WindbnbApp.js --format umd --name Windbnbapp -m",
-    "terser-mangle": "./node_modules/.bin/terser dist/components/app/WindbnbApp.js --output dist/components/app/WindbnbApp.js --mangle",
+    "rollup-bundle": "./node_modules/.bin/rollup src/components/app/src/WindbnbApp.js --file dist/src/components/app/WindbnbApp.js --format umd --name Windbnbapp -m",
+    "terser-mangle": "./node_modules/.bin/terser dist/src/components/app/WindbnbApp.js --output dist/src/components/app/WindbnbApp.js --mangle",
     "build": "npm run rollup-bundle && npm run terser-mangle"
   },
   "keywords": [],
