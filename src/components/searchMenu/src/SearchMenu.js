@@ -17,7 +17,6 @@ export default class SearchMenu extends HTMLElement {
         this.expandStateCSS();
         this.mobileExpandStateCSS();
         this.expandStateCSSAnimation();
-        this.searchButtonAnimation();
         this.scripts();
     }
 
@@ -535,16 +534,6 @@ export default class SearchMenu extends HTMLElement {
                     display: block;
                     margin-top: auto;
                 }
-            </style>
-        `;
-    }
-
-    searchButtonAnimation() {
-        this.shadowRoot.innerHTML += `
-            <style>
-                .searchButton:active {
-                    outline: 2px solid royalblue;
-                } 
             </style>
         `;
     }
