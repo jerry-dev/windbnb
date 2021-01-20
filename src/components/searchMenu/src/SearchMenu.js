@@ -376,22 +376,22 @@ export default class SearchMenu extends HTMLElement {
 
                 @keyframes expanded-animation {
                     0% {
-                        transform: scale(0.6);
+                        transform: scale3d(0.6, 0.6, 1);
                         transform-origin: 100% 0%;
                     }
                     100% {
-                        transform: scale(1);
+                        transform: scale3d(1, 1, 1);
                         transform-origin: 100% 0%;
                     }
                 }
 
                 @keyframes form-expanded {
                     0% {
-                        transform: scaleX(0.5);
+                        transform: scale3d(0.5, 1, 1);
                         transform-origin: right;
                     }
                     100% {
-                        transform: scaleX(1);
+                        transform: scale3d(1, 1, 1);
                         transform-origin: right;
                     }
                 }
